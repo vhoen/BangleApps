@@ -211,7 +211,9 @@ Graphics.prototype.setFontLECO1976Regular14 = function () {
     g.setColor(theme.fg);
     decorators.forEach((item) => {
       if (item.validator(hours, minutes)) {
-        g.setColor(theme.bg);
+        const colors = ["#1E3F66", "#047857", "#003366", "#228B22", "#36454F"];
+        const randomColor = colors.sort(() => 0.5 - Math.random()).slice(0, 1).pop();
+        g.setColor(randomColor);
 
         if (settings.buzzOnQuirkyTime) {
           Bangle.buzz()
