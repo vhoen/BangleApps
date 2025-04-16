@@ -2,7 +2,7 @@
   "id": "quirkytimeclock",
   "name": "Quirky Time Clock ",
   "shortName": "Quirky Time ",
-  "version": "0.0.24-dev",
+  "version": "0.0.25",
   "description": "A Pebble style clock (based on the 'Pebble++' app) but that display quirky times in a different color. Option needs to be activated in settings",
   "icon": "app.png",
   "screenshots": [{"url":"screenshot.jpg"}],
