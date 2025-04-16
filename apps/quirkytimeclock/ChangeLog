@@ -1,0 +1,5 @@
+0.0.23: displays full date (DD/MM/YYYY), 
+    use theme.bg for quirky time's color 
+0.0.24: fix time's random color
+0.0.25: refactoring + ensuring it works
+     both on device and emulator

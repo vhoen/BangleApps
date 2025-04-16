@@ -1,8 +1,8 @@
 {
-  "id": "pebblemisc",
-  "name": "Pebble++ Clock Misc",
-  "shortName": "Pebble++ Misc",
-  "version": "0.0.24-dev",
+  "id": "quirkytimeclock",
+  "name": "Quirky Time Clock ",
+  "shortName": "Quirky Time ",
+  "version": "0.0.25",
   "description": "A Pebble style clock (based on the 'Pebble++' app) but that display quirky times in a different color. Option needs to be activated in settings",
   "icon": "app.png",
   "screenshots": [{"url":"screenshot.jpg"}],
@@ -11,11 +11,11 @@
   "supports": ["BANGLEJS2"],
   "dependencies" : { "clock_info":"module", "clockbg":"module" },
   "storage": [
-    {"name":"pebblemisc.app.js","url":"app.js"},
-    {"name":"pebblemisc.settings.js","url":"settings.js"},
-    {"name":"pebblemisc.img","url":"icon.js","evaluate":true}
+    {"name":"quirkytimeclock.app.js","url":"app.js"},
+    {"name":"quirkytimeclock.settings.js","url":"settings.js"},
+    {"name":"quirkytimeclock.img","url":"icon.js","evaluate":true}
   ],
   "data": [
-    {"name":"pebblemisc.settings.json"}
+    {"name":"quirkytimeclock.settings.json"}
   ]
 }

@@ -1,8 +1,8 @@
 (function(back) {
-  const SETTINGS_FILE = "pebblemisc.json";
+  const SETTINGS_FILE = "quirkytimeclock.json";
 
   // Initialize with default settings...
-  let settings = {'theme':'System', 'showdate':true, 'clkinfoborder':false}
+  let settings = {'theme':'System', 'showdate':true, 'clkinfoborder':false, buzzOnQuirkyTime: true, isEmulator: false}
   // ...and overwrite them with any saved values
   // This way saved values are preserved if a new version adds more settings
   const storage = require('Storage');
@@ -15,7 +15,7 @@
   var theme_options = ['System', 'Light', 'Dark'];
 
   E.showMenu({
-    '': { 'title': 'Pebble++ Clock' },
+    '': { 'title': 'Quirky Time Clock' },
     /*LANG*/'< Back': back,
     /*LANG*/'Theme': {
       value: 0 | theme_options.indexOf(settings.theme),
