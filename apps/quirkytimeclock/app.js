@@ -274,56 +274,59 @@ Graphics.prototype.setFontStorSmall = function () {
     let clockInfoG = Graphics.createArrayBuffer(26, 26, 2, { msb: true });
     clockInfoG.transparent = 3;
     clockInfoG.palette = new Uint16Array([g.theme.bg, g.theme.fg, g.toColor("#888"), g.toColor("#888")]);
-    let clockInfoItems = require("clock_info").load();
-    let clockInfoDraw = (itm, info, options) => {
-      // itm: the item containing name/hasRange/etc
-      // info: data returned from itm.get() containing text/img/etc
-      // options: options passed into addInteractive
-      // Clear the background - if focussed, add a border
-      g.reset().setBgColor(theme.bg).setColor(theme.fg);
-      let y, b = 0; // border
-      if (options.focus) { // white border
-        b = 4;
-        g.clearRect(options.x, options.y, options.x + options.w - 1, options.y + options.h - 1);
-      }
-      background.fillRect(options.x + b, options.y + b, options.x + options.w - 1 - b, options.y + options.h - 1 - b);
-      // we're drawing center-aligned here
-      let midx = options.x + options.w / 2;
-      if (info.img) { // draw the image
-        // TODO: we could replace certain images with our own ones here...
-        y = options.y + 8;
-        if (settings.clkinfoborder)
-          require("clock_info").drawBorderedImage(info.img, midx - 24, y, { scale: 2 });
-        else
-          require("clock_info").drawFilledImage(info.img, midx - 24, y, { scale: 2 });
-      }
-      g.setFontStorMedium().setFontAlign(0, 0);
-      let txt = info.text.toString().toUpperCase();
-      if (g.stringWidth(txt) > options.w) // if too big, smaller font
-        g.setFontStorSmall();
-      if (g.stringWidth(txt) > options.w) {// if still too big, split to 2 lines
-        let l = g.wrapString(txt, options.w);
-        txt = l.slice(0, 2).join("\n") + (l.length > 2) ? "..." : "";
-      }
-      y = options.y + options.h - 12;
-      if (settings.clkinfoborder) {
-        g.setColor(theme.bg)
-        g.drawString(txt, midx - 2, y).drawString(txt, midx + 2, y).drawString(txt, midx, y - 2).drawString(txt, midx, y + 2);
-        g.setColor(theme.fg);
-      }
-      g.drawString(txt, midx, y); // draw the text
-    };
+    let clockInfoItems;
+    if (!settings.isEmulator) {
+      clockInfoItems = require("clock_info").load();
+      let clockInfoDraw = (itm, info, options) => {
+        // itm: the item containing name/hasRange/etc
+        // info: data returned from itm.get() containing text/img/etc
+        // options: options passed into addInteractive
+        // Clear the background - if focussed, add a border
+        g.reset().setBgColor(theme.bg).setColor(theme.fg);
+        let y, b = 0; // border
+        if (options.focus) { // white border
+          b = 4;
+          g.clearRect(options.x, options.y, options.x + options.w - 1, options.y + options.h - 1);
+        }
+        background.fillRect(options.x + b, options.y + b, options.x + options.w - 1 - b, options.y + options.h - 1 - b);
+        // we're drawing center-aligned here
+        let midx = options.x + options.w / 2;
+        if (info.img) { // draw the image
+          // TODO: we could replace certain images with our own ones here...
+          y = options.y + 8;
+          if (settings.clkinfoborder)
+            require("clock_info").drawBorderedImage(info.img, midx - 24, y, { scale: 2 });
+          else
+            require("clock_info").drawFilledImage(info.img, midx - 24, y, { scale: 2 });
+        }
+        g.setFontStorMedium().setFontAlign(0, 0);
+        let txt = info.text.toString().toUpperCase();
+        if (g.stringWidth(txt) > options.w) // if too big, smaller font
+          g.setFontStorSmall();
+        if (g.stringWidth(txt) > options.w) {// if still too big, split to 2 lines
+          let l = g.wrapString(txt, options.w);
+          txt = l.slice(0, 2).join("\n") + (l.length > 2) ? "..." : "";
+        }
+        y = options.y + options.h - 12;
+        if (settings.clkinfoborder) {
+          g.setColor(theme.bg);
+          g.drawString(txt, midx - 2, y).drawString(txt, midx + 2, y).drawString(txt, midx, y - 2).drawString(txt, midx, y + 2);
+          g.setColor(theme.fg);
+        }
+        g.drawString(txt, midx, y); // draw the text
+      };
 
-    clockInfoMenuA = require("clock_info").addInteractive(clockInfoItems, {
-      app: "quirkytimeclock",
-      x: 0, y: 0, w: clockInfoW, h: clockInfoH,
-      draw: clockInfoDraw
-    });
-    clockInfoMenuB = require("clock_info").addInteractive(clockInfoItems, {
-      app: "quirkytimeclock",
-      x: w / 2, y: 0, w: clockInfoW, h: clockInfoH,
-      draw: clockInfoDraw
-    });
+      clockInfoMenuA = require("clock_info").addInteractive(clockInfoItems, {
+        app: "quirkytimeclock",
+        x: 0, y: 0, w: clockInfoW, h: clockInfoH,
+        draw: clockInfoDraw
+      });
+      clockInfoMenuB = require("clock_info").addInteractive(clockInfoItems, {
+        app: "quirkytimeclock",
+        x: w / 2, y: 0, w: clockInfoW, h: clockInfoH,
+        draw: clockInfoDraw
+      });
+    }
   };
   loadClockInfos();
 
@@ -341,17 +344,20 @@ Graphics.prototype.setFontStorSmall = function () {
       delete Graphics.prototype.setFontStorMedium;
       delete Graphics.prototype.setFontStorTall;
       require("widget_utils").show(); // re-show widgets
-    },
-    touch: (n, e) => {
-      if (e.x >= 0 && e.x <= w && e.y >= h / 2 && e.y <= h) {
-      }
     }
+    // ,
+    // touch: (n, e) => {
+    //   if (e.x >= 0 && e.x <= w && e.y >= h / 2 && e.y <= h) {
+    //   }
+    // }
   });
 
 
   Bangle.loadWidgets();
   require("widget_utils").swipeOn(); // hide widgets, make them visible with a swipe
-  background.fillRect(Bangle.appRect); // start off with completely clear background
+  if (!settings.isEmulator) {
+    background.fillRect(Bangle.appRect); // start off with completely clear background
+  }
   // background contrast bar
   g.setColor(theme.fg).fillRect(0, h2 - 6, w, h3 + 6);
 
